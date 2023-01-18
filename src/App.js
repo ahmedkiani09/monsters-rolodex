@@ -14,7 +14,7 @@ class App extends Component {
     };
   }
 
-  async componentDidMount() {
+  async sendRequestApi() {
     try {
       const url = "https://jsonplaceholder.typicode.com/users";
 
@@ -23,6 +23,15 @@ class App extends Component {
 
       const users = await response.json();
       if (!users) return;
+      return users;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async componentDidMount() {
+    try {
+      const users = await this.sendRequestApi();
 
       this.setState(
         () => {
