@@ -1,12 +1,14 @@
 import { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
 import React from "react";
+import "./App.css";
+import CardListCl from "./components/card-list /card-list.component";
+import SearchBoxCl from "./components/search-box/search-box.component";
 
 class App extends Component {
   constructor() {
+    // 1. super method:
     super();
-
+    // 2. data state:
     this.state = {
       monsters: [],
       searchQuery: "",
@@ -33,16 +35,11 @@ class App extends Component {
     try {
       const users = await this.sendRequestApi();
 
-      this.setState(
-        () => {
-          return {
-            monsters: users,
-          };
-        },
-        () => {
-          console.log(this.state);
-        }
-      );
+      this.setState(() => {
+        return {
+          monsters: users,
+        };
+      });
     } catch (err) {
       console.error(err);
     }
@@ -50,32 +47,30 @@ class App extends Component {
 
   onSearchChange = (event) => {
     const searchQuery = event.target.value.toLowerCase();
-
     this.setState(() => {
       return { searchQuery };
     });
   };
 
   render() {
+    // 1. variables declaration using destructuring:
     const { monsters, searchQuery } = this.state;
     const { onSearchChange } = this;
 
+    // 2. filtered search:
     const filteredMonsters = monsters.filter((monster) => {
       return monster.name.toLowerCase().includes(searchQuery);
     });
 
     return (
       <div className="App">
-        <input
-          className="search-box"
-          type="search"
-          placeholder="monster's name"
-          onChange={onSearchChange}
+        <h1 className="app-title">MONSTERS ROLODEX</h1>
+        <SearchBoxCl
+          className="monsters-search-box"
+          placeHolder="search monsters"
+          searchChangeHandler={onSearchChange}
         />
-
-        {filteredMonsters.map((monster) => {
-          return <h1 key={monster.id}>{monster.name} </h1>;
-        })}
+        <CardListCl monsters={filteredMonsters} />
       </div>
     );
   }
