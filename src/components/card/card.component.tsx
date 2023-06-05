@@ -1,6 +1,11 @@
+import { Monster } from "../../App.tsx";
 import "./card.style.css";
 
-const Card = ({ monster }) => {
+type CardProps = {
+  monster: Monster;
+};
+
+const Card = ({ monster }: CardProps) => {
   const { name, email, id } = monster;
   return (
     <div className="card-container" key={id}>
